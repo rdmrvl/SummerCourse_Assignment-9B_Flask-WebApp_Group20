@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 9B - Flask Application</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style>
+        .expandable-table {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .table-green {
+            background-color: #d4edda; /* Bootstrap green */
+        }
+        .table-orange {
+            background-color: #fff3cd; /* Bootstrap yellow */
+        }
+        .table-red {
+            background-color: #f8d7da; /* Bootstrap red */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="btn btn-primary mt-4">Back to Selection</a>
+        <h1 class="mt-3 mb-4">Waste Management Statistics</h1>
+
+        <h2>Total Annual Waste by Province</h2>
+        <img src="data:image/png;base64,{{ plot_url1 }}" alt="Total Annual Waste by Province" class="img-fluid">
+
+        <h2>Category of Average Annual Waste Generation</h2>
+        <img src="data:image/png;base64,{{ plot_url2 }}" alt="Category of Average Annual Waste Generation" class="img-fluid">
+
+        <h2>Total Annual Waste</h2>
+        <div class="expandable-table">
+            <table class="table">
+                {{ total_annual | safe }}
+            </table>
+        </div>
+
+        <h2>Average Annual Waste</h2>
+        <div class="expandable-table">
+            <table class="table">
+                {{ avg_annual | safe }}
+            </table>
+        </div>
+
+        <h2>Province Producing the Most Waste</h2>
+        <div class="expandable-table">
+            <table class="table">
+                {{ most_waste | safe }}
+            </table>
+        </div>
+
+        <h2>Province Producing the Least Waste</h2>
+        <div class="expandable-table">
+            <table class="table">
+                {{ least_waste | safe }}
+            </table>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js" integrity="sha384-T/PpSjWY0rO3Nz6Gl3hV6zrMCJSKtLy+d9XYWNSds17D4fqx6GfUJ1ld6D6fk9p" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy60S66cpkLkaQ5sqq2xcvC7BDmPbZaONn" crossorigin="anonymous"></script>
+</body>
+</html>

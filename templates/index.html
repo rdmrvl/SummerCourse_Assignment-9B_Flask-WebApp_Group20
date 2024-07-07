@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 9B - Flask Application</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .checkbox-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ced4da;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .checkbox-list label {
+            display: block;
+            padding: 3px 0;
+            font-weight: 400;
+            line-height: 1.5;
+            white-space: nowrap;
+        }
+        .checkbox-list label input {
+            margin-right: 10px;
+        }
+        .search-input {
+            margin-bottom: 10px;
+        }
+        .expandable-table {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5 mb-4">Assignment 9B</h1>
+        <div class="card mb-4">
+            <div class="card-header">
+                Assignment Objectives
+            </div>
+            <div class="card-body">
+                <p>For this assignment on waste generation data sourced from each district/city across Indonesia between 2018 and 2023, each group selected data from two different provinces. The data was analyzed to address the following objectives:</p>
+                <ul>
+                    <li>Calculate the total annual waste generation for each province in each year to understand yearly trends.</li>
+                    <li>Determine the average total annual waste generation per province over the entire period to identify long-term patterns.</li>
+                    <li>Identify which province produced the most and least waste annually each year to highlight regional variations.</li>
+                    <li>Create graphs depicting the total annual waste generation trends per province over the years to visualize trends effectively.</li>
+                    <li>Provide categorization and visualization of average annual waste incidence per province:
+                        <ul>
+                            <li>Provinces categorized as "GREEN" if average annual waste generation is 100,000 tons or less.</li>
+                            <li>Provinces categorized as "ORANGE" if average annual waste generation is between 100,000 and 700,000 tons.</li>
+                            <li>Provinces categorized as "RED" if average annual waste generation is over 700,000 tons.</li>
+                        </ul>
+                    </li>
+                    <li>Develop a Flask-based web application to offer interactive visualizations of both total annual waste trends and categorized average annual waste generation for each province throughout the specified period.</li>
+                </ul>
+            </div>
+        </div>
+        <h1 class="mt-5 mb-4">Select Criteria for Waste Management Statistics</h1>
+        <form action="/stats" method="POST">
+            <div class="form-group">
+                <label for="provinces">Select Provinces:</label>
+                <input type="text" id="provinceSearch" class="form-control search-input" placeholder="Search Province...">
+                <div class="checkbox-list">
+                    <label>
+                        <input type="checkbox" id="selectAllProvinces"> All Provinces
+                    </label>
+                    {% for province in provinces %}
+                        <label class="province-checkbox">
+                            <input type="checkbox" name="provinces" value="{{ province }}"> {{ province }}
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="start_year">Start Year:</label>
+                <select id="start_year" name="start_year" class="form-control">
+                    {% for year in years %}
+                        <option value="{{ year }}">{{ year }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="end_year">End Year:</label>
+                <select id="end_year" name="end_year" class="form-control">
+                    {% for year in years %}
+                        <option value="{{ year }}">{{ year }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Generate Statistics</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Select all provinces when "All Provinces" checkbox is checked
+            $('#selectAllProvinces').change(function() {
+                $('.province-checkbox input[type="checkbox"]').prop('checked', $(this).prop('checked'));
+            });
+
+            // Limit selection to max 5 provinces
+            $('.province-checkbox input[type="checkbox"]').change(function() {
+                var checkedCount = $('.province-checkbox input[type="checkbox"]:checked').length;
+                if (checkedCount > 5) {
+                    $(this).prop('checked', false); // Uncheck the current checkbox
+                    alert('You can select up to 5 provinces.');
+                }
+            });
+
+            // Filter provinces based on search input
+            $('#provinceSearch').on('input', function() {
+                var searchText = $(this).val().toLowerCase();
+                $('.province-checkbox').each(function() {
+                    var provinceName = $(this).text().toLowerCase();
+                    $(this).toggle(provinceName.includes(searchText));
+                });
+            });
+        });
+    </script>
+</body>
+</html>
